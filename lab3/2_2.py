@@ -30,11 +30,38 @@ def paint_cloud(x,y,r):
         x -= 1.5*r
 
 
-    
+def paint_walls(x,y,width,wall_height):
+    penColor(79,64,3)
+    brushColor(148,107,6)
+    rectangle(x,y,x+width,y+wall_height)
+def paint_roof(x,y,width,roof_height):
+    penColor(72,88,93)
+    brushColor(236,43,66)
+    polygon([(x,y),(x+0.5*width,roof_height),(x+width,y),(x,y)])
+def paint_window(x_window,y_wondow,window_width,window_heght):
+    penColor(188,99,9)
+    brushColor(5,148,146)
+    rectangle(x_window,y_wondow,x_window + window_width,y_wondow + window_heght)
 
+def paint_house(x,y,width,height):
+    '''x , y - координаты левой верхней точки стен'''
+    wall_height = 0.6 * width
+    roof_height = 0.4 * height
+    print(wall_height)
+    print(roof_height)
+    x_window = x + width /3
+    y_wondow = y + height / 3 
+    window_width = width / 4
+    window_heght = height / 3 
+    paint_walls(x,y,width,wall_height)
+    paint_roof(x,y,width,roof_height)
+    paint_window(x_window,y_wondow,window_width,window_heght)
+    
 paint_cloud(75,42,15)
 paint_cloud(320,53,15)
 paint_cloud(200,60,13)
+
+paint_house(42,140,100,160)
 
 
 
