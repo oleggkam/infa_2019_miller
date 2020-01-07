@@ -2,12 +2,13 @@ import tkinter as tk
 from random import randint
 
 
-WIDTH = 300
-HEIGHT = 200
-points = 0
+
+WIDTH = 300 # ширина окна
+HEIGHT = 200 # высота окна
+points = 0 # количество набранных очкаов
 
 
-
+'''класс мяч ,в конструктор не передаются параметры , а создаются по умолчанию'''
 class Ball:
     def __init__(self):
         self.R = randint(20,50)
@@ -20,25 +21,23 @@ class Ball:
     def move(self):
         self.x += self.dx
         self.y += self.dy
-        if ((self.x + self.R > WIDTH) or(self.x - self.R <= 0)):
+        if ((self.x + self.R > WIDTH) or (self.x - self.R <= 0)):
             self.dx = -self.dx
-        if ((self.y + self.R > WIDTH) or(self.y - self.R <= 0)):
+        if ((self.y + self.R > WIDTH) or (self.y - self.R <= 0)):
             self.dy = -self.dy
 
 
     def show(self):
         canvas.move(self.ball_id,self.dx,self.dy)
-        
+'''обработчик событий клика мыши, пока пуст'''        
 def click(event):
     global points
-    print(event.x,event.y)
-    #print(x,y,r)
-    '''Вычисляем расстояние от координат клика мыши и центра шарика;
-        если расстояние меньше либо равно, то начисляем игроку 1 очко'''
-    '''for ball in balls:
-        if ((((event.x - balls.x)**2+(event.y - balls.y)**2)**0.5)<= self.R):
+    for ball in balls:
+        if ((((event.x - ball.x)**2+(event.y - ball.y)**2)**0.5)<= ball.R):
             points = points + 1
-        print(points)'''
+        print(points) 
+
+
 
 def tick():
     for ball in balls:
