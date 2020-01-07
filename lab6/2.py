@@ -13,8 +13,9 @@ c.create_line(100, 180, 100, 60, fill='green',
                 arrowshape="10 20 10")'''
 
 #прямоугольники
-'''c.create_rectangle(10, 10, 190, 60)
+c.create_rectangle(10, 10, 190, 60)
 
+'''
 c.create_rectangle(60, 80, 140, 190, fill='yellow', outline='green',
                     width=3, activedash=(5, 4))'''
 #полигоны
@@ -37,7 +38,7 @@ c.create_arc(10, 10, 190, 190, start=160, extent=-70, style=ARC, outline='darkbl
 '''
 # текст на холсте
 
-c.create_text(100, 100, text="Hello World,\nPython\nand Tk",
+'''c.create_text(100, 100, text="Hello World,\nPython\nand Tk",
                 justify=CENTER, font="Verdana 14")
 c.create_text(200, 200, text="About this",
-                anchor=SE, fill="grey")
+                anchor=SE, fill="grey")'''

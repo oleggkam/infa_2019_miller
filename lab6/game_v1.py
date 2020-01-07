@@ -2,22 +2,31 @@ from tkinter import *
 from random import randrange as rnd, choice
 import time
 root = Tk()
-root.geometry('800x600')
+
+WIDTH = 300
+HEIGHT = 200
+points = 0
+
+
+root.geometry(str(WIDTH) + 'x' +str(HEIGHT))
 
 canv = Canvas(root,bg='white')
 canv.pack(fill=BOTH,expand=1)
 
 colors = ['red','orange','yellow','green','blue']
-def new_ball():
-    global x,y,r
-    canv.delete(ALL)
-    x = rnd(100,700)
-    y = rnd(100,500)
-    r = rnd(30,50)
-    canv.create_oval(x-r,y-r,x+r,y+r,fill = choice(colors), width=0)
-    root.after(1000,new_ball)
 
-points = 0
+
+def tick():
+    
+    root.after(1000,move())
+
+def show():
+    canv.move(ball,+1,+1)
+
+
+def move():
+    pass
+    
 
 def click(event):
     global points
@@ -29,6 +38,19 @@ def click(event):
         points = points + 1
     print(points)
 
-new_ball()
-canv.bind('<Button-1>', click)
-mainloop()
+
+def main():
+    global x,y,r
+    r = rnd(30,50)
+    canv.delete(ALL)
+    x = rnd(r,WIDTH)
+    y = rnd(r,HEIGHT)
+    ball = canv.create_oval(x-r,y-r,x+r,y+r,fill = choice(colors), width=0)
+    canv.bind('<Button-1>', click)
+    mainloop()   
+
+
+if __name__ == "__main__":
+    main()
+
+
