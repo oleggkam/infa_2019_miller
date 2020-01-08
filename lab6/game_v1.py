@@ -1,31 +1,28 @@
-from tkinter import *
+import tkinter as tk
 from random import randrange as rnd, choice
 import time
-root = Tk()
+
 
 WIDTH = 300
 HEIGHT = 200
 points = 0
 
 
-root.geometry(str(WIDTH) + 'x' +str(HEIGHT))
-
-canv = Canvas(root,bg='white')
-canv.pack(fill=BOTH,expand=1)
-
 colors = ['red','orange','yellow','green','blue']
 
 
 def tick():
-    
-    root.after(1000,move())
+    global x , y, r , dx ,dy
+    x += dx
+    y += dy
+    if (x + r >= WIDTH) or (x - r <= 0 ):
+        dx = -dx
+    if (y + r >= HEIGHT) or (y - r <= 0 ):
+        dy = -dy
 
-def show():
-    canv.move(ball,+1,+1)
+    canvas.move(ball,dx,dy)
+    root.after(50,move,tick)
 
-
-def move():
-    pass
     
 
 def click(event):
@@ -40,14 +37,22 @@ def click(event):
 
 
 def main():
-    global x,y,r
+    global x,y,r , dx ,dy , ball, root , canvas
+
+    root = tk.Tk()
+    root.geometry(str(WIDTH) + 'x' +str(HEIGHT))
+    canvas = tk.Canvas(root)
+    canvas.pack(anchor="nw", fill=tk.BOTH)
+    
+    dx , dy = (+2, +3)
     r = rnd(30,50)
-    canv.delete(ALL)
     x = rnd(r,WIDTH)
     y = rnd(r,HEIGHT)
-    ball = canv.create_oval(x-r,y-r,x+r,y+r,fill = choice(colors), width=0)
-    canv.bind('<Button-1>', click)
-    mainloop()   
+    ball = canvas.create_oval(x-r,y-r,x+r,y+r,fill = choice(colors), width=0)
+
+    
+    canvas.bind('<Button-1>', click)
+    root.mainloop()   
 
 
 if __name__ == "__main__":
