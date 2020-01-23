@@ -51,9 +51,13 @@ class ball():
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME
+        # FIXME # Типа пофиксил # с гравитацией вопрос остается открытым 
         self.x += self.vx
         self.y -= self.vy
+        if ((self.x + self.r) > 800 ):
+            self.vx = -self.vx
+        if ((self.y + self.r) > 600 ):
+            self.vy = -self.vy
 
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
@@ -63,9 +67,15 @@ class ball():
         Returns:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
+        '''Flag = False
+        if ( ((self.x + self.r) >= (obj.x - obj.r)) or ((self.x - self.r) <= (obj.x + obj.r)) ):
+            Flag =  True
+        if ( ((self.y + self.r) <= (obj.y - obj.r)) or ((self.y - self.r) >= (obj.y + obj.r)) ):
+            Flag =  True
+        # FIXME
+        return Flag'''
         # FIXME
         return False
-
 
 class gun():
 
@@ -164,6 +174,7 @@ def new_game(event=''):
     while t1.live or balls:
         for b in balls:
             b.move()
+            b.set_coords()
             if b.hittest(t1) and t1.live:
                 t1.live = 0
                 t1.hit()
