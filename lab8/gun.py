@@ -44,14 +44,15 @@ class ball():
                 self.y + self.r
         )
 
-    def move(self):
+    def move(self, obj):
         """Переместить мяч по прошествии единицы времени.
 
         Метод описывает перемещение мяча за один кадр перерисовки. То есть, обновляет значения
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME # Типа пофиксил # с гравитацией вопрос остается открытым 
+        # FIXME # Типа пофиксил # с гравитацией вопрос остается открытым
+        # gravity: self.x * obj.an - ((9.8 * self.x ** 2)/ (2* self.vx * math.cos(obj.an)**2))
         self.x += self.vx
         self.y -= self.vy
         if ((self.x + self.r) > 800 ):
@@ -67,15 +68,11 @@ class ball():
         Returns:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
-        '''Flag = False
-        if ( ((self.x + self.r) >= (obj.x - obj.r)) or ((self.x - self.r) <= (obj.x + obj.r)) ):
+        Flag = False
+        if ( ((obj.x - self.x) <= (self.r + obj.r)) and ((obj.y - self.y) <= (self.r + obj.r)) and (self.y - obj.y) <= (self.r + obj.r) and ((self.x - obj.x) <= (self.r + obj.r)) ):
             Flag =  True
-        if ( ((self.y + self.r) <= (obj.y - obj.r)) or ((self.y - self.r) >= (obj.y + obj.r)) ):
-            Flag =  True
-        # FIXME
-        return Flag'''
-        # FIXME
-        return False
+        return Flag
+        # FIXME - ready
 
 class gun():
 
@@ -132,6 +129,8 @@ class target():
     def __init__(self):
         self.points = 0
         self.live = 1
+        self.vx = 5
+        self.vy = 3
         # FIXME: don't work!!! How to call this functions when object is created?
         self.id = canv.create_oval(0,0,0,0)
         self.id_points = canv.create_text(30,30,text = self.points,font = '28')
@@ -151,6 +150,24 @@ class target():
         canv.coords(self.id, -10, -10, -10, -10)
         self.points += points
         canv.itemconfig(self.id_points, text=self.points)
+    
+    def set_coords(self):
+        canv.coords(
+                self.id,
+                self.x - self.r,
+                self.y - self.r,
+                self.x + self.r,
+                self.y + self.r
+        )
+
+    def move(self):
+        self.x += self.vx
+        self.y -= self.vy
+        if (((self.x + self.r) > 800)  or ((self.x - self.r) <= 0)):
+            self.vx = -self.vx
+        if (((self.y + self.r) > 600) or ((self.y - self.r) <= 0)):
+            self.vy = -self.vy
+        
 
 
 t1 = target()
@@ -161,7 +178,7 @@ balls = []
 
 
 def new_game(event=''):
-    global gun, t1, screen1, balls, bullet
+    global gun, t1, t2 , screen1, balls, bullet
     t1.new_target()
     bullet = 0
     balls = []
@@ -169,13 +186,15 @@ def new_game(event=''):
     canv.bind('<ButtonRelease-1>', g1.fire2_end)
     canv.bind('<Motion>', g1.targetting)
 
-    z = 0.03
-    t1.live = 1
-    while t1.live or balls:
+
+    t1.live  = 1
+    while t1.live  or balls:
+        #t1.move()
+        #t1.set_coords()
         for b in balls:
-            b.move()
+            b.move(g1)
             b.set_coords()
-            if b.hittest(t1) and t1.live:
+            if b.hittest(t1) and t1.live :
                 t1.live = 0
                 t1.hit()
                 canv.bind('<Button-1>', '')
